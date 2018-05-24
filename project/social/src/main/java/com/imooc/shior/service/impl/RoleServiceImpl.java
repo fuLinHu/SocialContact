@@ -4,33 +4,32 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.study.mapper.RoleMapper;
-import com.study.mapper.RoleResourcesMapper;
+import com.imooc.shior.model.Role;
+import com.imooc.shior.model.RoleResources;
+import com.imooc.shior.repository.RoleDao;
+import com.imooc.shior.repository.RoleResourcesDao;
+
+import com.imooc.shior.service.RoleService;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.study.model.Role;
-import com.study.model.RoleResources;
-import com.study.service.RoleService;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.StringUtil;
 
 @Service("roleService")
-public class RoleServiceImpl extends BaseService<Role> implements RoleService{
+public class RoleServiceImpl  implements RoleService {
 
     @Resource
-    private RoleMapper roleMapper;
+    private RoleDao mapper;
     @Resource
-    private RoleResourcesMapper roleResourcesMapper;
+    private RoleResourcesDao roleResourcesMapper;
 
     @Override
     public List<Role> queryRoleListWithSelected(Integer uid) {
-        return roleMapper.queryRoleListWithSelected(uid);
+        return mapper.queryRoleListWithSelected(uid);
     }
 
     @Override
@@ -55,4 +54,67 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService{
         roleResourcesMapper.deleteByExample(example);
 
     }
+
+    @Override
+    public Page<Role> findPage(Pageable pageable) {
+        return mapper.findAll(pageable);
+    }
+
+
+    @Override
+    public <S extends Role> S save(S var1) {
+        return mapper.save(var1);
+    }
+
+    @Override
+    public <S extends Role> Iterable<S> save(Iterable<S> var1) {
+        return mapper.save(var1);
+    }
+
+    @Override
+    public Role findOne(Long var1) {
+        return mapper.findOne(var1);
+    }
+
+    @Override
+    public boolean exists(Long var1) {
+        return mapper.exists(var1);
+    }
+
+    @Override
+    public Iterable<Role> findAll() {
+        return mapper.findAll();
+    }
+
+    @Override
+    public Iterable<Role> findAll(Iterable<Long> var1) {
+        return mapper.findAll(var1);
+    }
+
+    @Override
+    public long count() {
+        return mapper.count();
+    }
+
+    @Override
+    public void delete(Long var1) {
+        mapper.delete(var1);
+    }
+
+    @Override
+    public void delete(Role var1) {
+        mapper.delete(var1);
+    }
+
+    @Override
+    public void delete(Iterable<? extends Role> var1) {
+        mapper.delete(var1);
+    }
+
+    @Override
+    public void deleteAll() {
+        mapper.deleteAll();
+    }
+
+
 }

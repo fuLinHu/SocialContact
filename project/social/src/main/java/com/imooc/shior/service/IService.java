@@ -22,6 +22,8 @@ package com.imooc.shior.service;/*
  * THE SOFTWARE.
  */
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,18 +33,27 @@ import java.util.List;
  */
 @Service
 public interface IService<T> {
+    <S extends T> S save(S var1);
 
-    T selectByKey(Object key);
+    <S extends T> Iterable<S> save(Iterable<S> var1);
 
-    int save(T entity);
+    T findOne(Long var1);
 
-    int delete(Object key);
+    boolean exists(Long var1);
 
-    int updateAll(T entity);
+    Iterable<T> findAll();
 
-    int updateNotNull(T entity);
+    Iterable<T> findAll(Iterable<Long> var1);
 
-    List<T> selectByExample(Object example);
+    long count();
 
-    //TODO 其他...
+    void delete(Long var1);
+
+    void delete(T var1);
+
+    void delete(Iterable<? extends T> var1);
+
+    void deleteAll();
+
+    Page<T> findPage(Pageable pageable);
 }

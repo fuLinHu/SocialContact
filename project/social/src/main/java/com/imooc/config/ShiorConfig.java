@@ -1,5 +1,6 @@
 package com.imooc.config;
 
+import com.imooc.shior.MyShiroRealm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;

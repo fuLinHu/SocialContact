@@ -105,7 +105,6 @@ public class HouseServiceImpl implements IHouseService {
         if (subwayValidtionResult != null) {
             return subwayValidtionResult;
         }
-
         House house = new House();
         modelMapper.map(houseForm, house);
 

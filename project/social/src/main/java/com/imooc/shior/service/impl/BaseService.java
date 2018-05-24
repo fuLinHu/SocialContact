@@ -36,6 +36,7 @@ import java.util.List;
  */
 public abstract class BaseService<T> implements IService<T> {
 
+/*
     @Autowired
     protected Mapper<T> mapper;
 
@@ -66,5 +67,5 @@ public abstract class BaseService<T> implements IService<T> {
 
     public List<T> selectByExample(Object example) {
         return mapper.selectByExample(example);
-    }
+    }*/
 }
