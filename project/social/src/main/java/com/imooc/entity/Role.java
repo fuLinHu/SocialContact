@@ -1,46 +1,52 @@
 package com.imooc.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
-/**
- * Created by 瓦力.
- */
 @Entity
-@Table(name = "role")
-public class Role {
+public class Role implements Serializable{
+    private static final long serialVersionUID = -6140090613812307452L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "user_id")
-    private Long userId;
-    private String name;
+    private Integer id;
 
-    public Long getId() {
+    @Column(name = "roleDesc")
+    private String roledesc;
+    @Transient
+    private Integer selected;
+    /**
+     * @return id
+     */
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    /**
+     * @param id
+     */
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    /**
+     * @return roleDesc
+     */
+    public String getRoledesc() {
+        return roledesc;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    /**
+     * @param roledesc
+     */
+    public void setRoledesc(String roledesc) {
+        this.roledesc = roledesc;
     }
 
-    public String getName() {
-        return name;
+    public Integer getSelected() {
+        return selected;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSelected(Integer selected) {
+        this.selected = selected;
     }
 }
