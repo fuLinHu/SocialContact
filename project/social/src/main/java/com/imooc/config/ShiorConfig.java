@@ -78,7 +78,7 @@ public class ShiorConfig {
      * ）
      * @return
      */
-    @Bean
+    @Bean(name="credentialsMatcher")
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
@@ -94,12 +94,15 @@ public class ShiorConfig {
     @Bean
     public MyShiroRealm myShiroRealm() {
         MyShiroRealm myShiroRealm = new MyShiroRealm();
+        //告诉realm,使用credentialsMatcher加密算法类来验证密文
+        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        myShiroRealm.setCachingEnabled(false);
         return myShiroRealm;
     }
 
     public static void main(String[] args) {
         String hashAlgorithmName = "MD5";
-        String credentials = "1111111";
+        String credentials = "admin";
         int hashIterations = 2;
         Object obj = new SimpleHash(hashAlgorithmName, credentials, null, hashIterations);
         System.out.println(obj.toString());
