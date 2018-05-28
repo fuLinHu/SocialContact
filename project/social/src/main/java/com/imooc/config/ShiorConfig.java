@@ -99,7 +99,7 @@ public class ShiorConfig {
 
     public static void main(String[] args) {
         String hashAlgorithmName = "MD5";
-        String credentials = "111111";
+        String credentials = "1111111";
         int hashIterations = 2;
         Object obj = new SimpleHash(hashAlgorithmName, credentials, null, hashIterations);
         System.out.println(obj.toString());
