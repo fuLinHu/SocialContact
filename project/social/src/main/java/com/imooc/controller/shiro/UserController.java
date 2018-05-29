@@ -5,7 +5,9 @@ import com.imooc.entity.User;
 import com.imooc.entity.UserRole;
 import com.imooc.service.UserRoleService;
 import com.imooc.service.UserService;
+import com.imooc.util.tools.PageableTools;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +34,14 @@ public class UserController {
                                      @RequestParam(required = false, defaultValue = "1") int start,
                                      @RequestParam(required = false, defaultValue = "10") int length){
         Map<String,Object> map = new HashMap<>();
+        Page<User> page = userService.findPage(PageableTools.basicPage(start, length));
        /* PageInfo<User> pageInfo = userService.selectByPage(user, start, length);
         System.out.println("pageInfo.getTotal():"+pageInfo.getTotal());
         map.put("draw",draw);
         map.put("recordsTotal",pageInfo.getTotal());
         map.put("recordsFiltered",pageInfo.getTotal());
         map.put("data", pageInfo.getList());*/
+        map.put("data", page);
         return map;
     }
 
