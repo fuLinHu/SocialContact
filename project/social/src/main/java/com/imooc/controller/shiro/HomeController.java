@@ -48,21 +48,21 @@ public class HomeController {
     }
     @RequestMapping(value={"/usersPage",""})
     public String usersPage(){
-        return "user/users";
+        return "shiro/user/users";
     }
 
     @RequestMapping("/rolesPage")
     public String rolesPage(){
-        return "role/roles";
+        return "shiro/role/roles";
     }
 
     @RequestMapping("/resourcesPage")
     public String resourcesPage(){
-        return "resources/resources";
+        return "shiro/resources/resources";
     }
 
     @RequestMapping("/403")
     public String forbidden(){
-        return "403";
+        return "shiro/403";
     }
 }
