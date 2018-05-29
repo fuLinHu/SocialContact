@@ -1,5 +1,6 @@
 package com.imooc.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.imooc.service.impl.MyShiroRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -15,6 +16,16 @@ import java.util.Map;
 
 @Configuration
 public class ShiorConfig {
+
+
+    /**
+     * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在

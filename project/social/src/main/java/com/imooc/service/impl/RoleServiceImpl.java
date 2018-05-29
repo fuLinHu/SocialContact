@@ -22,9 +22,10 @@ public class RoleServiceImpl  implements RoleService {
     @Resource
     private RoleResourcesDao roleResourcesMapper;
 
+
     @Override
     public List<Role> queryRoleListWithSelected(Integer uid) {
-        return null;
+        return mapper.queryRoleListWithSelected(uid);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class UserController {
         if(StringUtils.isEmpty(userRole.getUserid()))
             return "error";
         try {
-            userRoleService.addUserRole(userRole);
+            userRoleService.save(userRole);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,9 +73,10 @@ public class UserController {
         try {
             user.setEnable(1);
             String hashAlgorithmName = "MD5";
-            String credentials = "111111";
+            String credentials = user.getPassword();
             int hashIterations = 2;
             Object obj = new SimpleHash("MD5", user.getPassword(), null, 2);
+            user.setPassword(obj.toString());
             userService.save(user);
             return "success";
         } catch (Exception e) {

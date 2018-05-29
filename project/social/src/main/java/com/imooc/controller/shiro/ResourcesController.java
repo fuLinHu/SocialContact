@@ -53,7 +53,7 @@ public class ResourcesController {
         Integer userid = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userSessionId");
         map.put("type",1);
         map.put("userid",userid);
-        List<Resources> resourcesList = resourcesService.loadUserResources(map);
+        List<Resources> resourcesList = resourcesService.loadUserResources(userid,1);
         return resourcesList;
     }
 

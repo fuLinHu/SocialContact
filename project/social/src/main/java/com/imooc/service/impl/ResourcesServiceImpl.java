@@ -85,8 +85,13 @@ public class ResourcesServiceImpl implements ResourcesService {
 
 
     @Override
-    public List<Resources> loadUserResources(Map<String, Object> map) {
-        return null;
+    public List<Resources> loadUserResources(Integer userid) {
+        return mapper.loadUserResources(userid);
+    }
+
+    @Override
+    public List<Resources> loadUserResources(Integer userid,int type) {
+        return mapper.loadUserResources(userid,type);
     }
 
     @Override

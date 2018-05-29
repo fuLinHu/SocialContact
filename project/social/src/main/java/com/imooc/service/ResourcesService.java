@@ -17,7 +17,9 @@ public interface ResourcesService extends IService<Resources> {
     public Page<Resources> findPage(Pageable pageable);
 
 
-    public List<Resources> loadUserResources(Map<String, Object> map);
+    public List<Resources> loadUserResources(Integer userid);
+
+    public List<Resources> loadUserResources(Integer userid, int i);
 
     public List<Resources> queryResourcesListWithSelected(Integer rid);
 }

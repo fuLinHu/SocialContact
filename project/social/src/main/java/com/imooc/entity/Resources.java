@@ -20,7 +20,6 @@ public class Resources implements Serializable{
     /**
      * 资源url
      */
-    @Column(name = "resUrl")
     private String resurl;
 
     /**
@@ -31,7 +30,6 @@ public class Resources implements Serializable{
     /**
      * 父资源
      */
-    @Column(name = "parentId")
     private Integer parentid;
 
     /**

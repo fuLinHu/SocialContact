@@ -10,7 +10,7 @@ public class Role implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "roleDesc")
+    @Column(name = "roledesc")
     private String roledesc;
     @Transient
     private Integer selected;

@@ -22,6 +22,7 @@ package com.imooc.service;/*
  * THE SOFTWARE.
  */
 
+import com.imooc.entity.Resources;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,5 @@ public interface IService<T> {
     void deleteAll();
 
     Page<T> findPage(Pageable pageable);
+
 }
