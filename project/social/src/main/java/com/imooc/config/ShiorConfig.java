@@ -1,6 +1,8 @@
 package com.imooc.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.imooc.entity.Resources;
+import com.imooc.service.ResourcesService;
 import com.imooc.service.impl.MyShiroRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -9,16 +11,18 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
+import org.springframework.util.StringUtils;
 
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 public class ShiorConfig {
 
-
+    private ResourcesService resourcesService;
     /**
      * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
      * @return
@@ -67,7 +71,14 @@ public class ShiorConfig {
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
 
-        filterChainDefinitionMap.put("/users/add", "perms[权限添加]");
+        //这些请求需要权限验证
+        Iterable<Resources> all = resourcesService.findAll();
+        for(Resources resources:all){
+            if (!StringUtils.isEmpty(resources.getResurl())) {
+                String permission = "perms[" + resources.getResurl()+ "]";
+                filterChainDefinitionMap.put(resources.getResurl(),permission);
+            }
+        }
 
 
 
