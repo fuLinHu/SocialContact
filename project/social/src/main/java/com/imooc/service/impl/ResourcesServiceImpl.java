@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,12 @@ public class ResourcesServiceImpl implements ResourcesService {
 
     @Override
     public List<Resources> queryResourcesListWithSelected(Integer rid) {
-        return null;
+        Iterable<Resources> all = mapper.findAll();
+        List<Resources> list=new ArrayList<Resources>();
+        all.forEach(item->{
+            list.add(item);
+        });
+        return list;
     }
 
 
