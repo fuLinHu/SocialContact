@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 public class User implements Serializable{
-    private static final long serialVersionUID = -8736616045315083846L;
+    private static final long serialVersionUID = -3214240342571892723L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

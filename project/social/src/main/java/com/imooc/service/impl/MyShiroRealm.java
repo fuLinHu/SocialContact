@@ -4,18 +4,21 @@ import com.imooc.entity.Resources;
 import com.imooc.entity.User;
 import com.imooc.service.ResourcesService;
 import com.imooc.service.UserService;
+import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MyShiroRealm extends AuthorizingRealm {
 
@@ -23,13 +26,20 @@ public class MyShiroRealm extends AuthorizingRealm {
     private UserService userService;
     @Autowired
     private ResourcesService resourcesService;
+
+    @Autowired
+    private RedisSessionDAO redisSessionDAO;
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         /*SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
         return info;*/
-        User user= (User) SecurityUtils.getSubject().getPrincipal();//User{id=1, username='admin', password='3ef7164d1f6167cb9f2658c07d3c2f0a', enable=1}
+        Object principal = SecurityUtils.getSubject().getPrincipal();
+        JSONObject jsonObject = JSONObject.fromObject(principal);
+        User user = (User) JSONObject.toBean(jsonObject,User.class);
+        System.out.println(principal.toString());
+        //User user= (User) SecurityUtils.getSubject().getPrincipal();//User{id=1, username='admin', password='3ef7164d1f6167cb9f2658c07d3c2f0a', enable=1}
         Map<String,Object> map = new HashMap<String,Object>();
         List<Resources> resourcesList = resourcesService.loadUserResources(user.getId());
         // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
@@ -60,5 +70,41 @@ public class MyShiroRealm extends AuthorizingRealm {
         session.setAttribute("userSession", user);
         session.setAttribute("userSessionId", user.getId());
         return authenticationInfo;
+    }
+
+    /**
+     * 根据userId 清除当前session存在的用户的权限缓存
+     * @param userIds 已经修改了权限的userId
+     */
+    public void clearUserAuthByUserId(List<Integer> userIds){
+        if(null == userIds || userIds.size() == 0)	return ;
+        //获取所有session
+        Collection<Session> sessions = redisSessionDAO.getActiveSessions();
+        //定义返回
+        List<SimplePrincipalCollection> list = new ArrayList<SimplePrincipalCollection>();
+        for (Session session:sessions){
+            //获取session登录信息。
+            Object obj = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            if(null != obj && obj instanceof SimplePrincipalCollection){
+                //强转
+                SimplePrincipalCollection spc = (SimplePrincipalCollection)obj;
+                //判断用户，匹配用户ID。
+                obj = spc.getPrimaryPrincipal();
+                if(null != obj && obj instanceof User){
+                    User user = (User) obj;
+                    System.out.println("user:"+user);
+                    //比较用户ID，符合即加入集合
+                    if(null != user && userIds.contains(user.getId())){
+                        list.add(spc);
+                    }
+                }
+            }
+        }
+        RealmSecurityManager securityManager =
+                (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        MyShiroRealm realm = (MyShiroRealm)securityManager.getRealms().iterator().next();
+        for (SimplePrincipalCollection simplePrincipalCollection : list) {
+            realm.clearCachedAuthorizationInfo(simplePrincipalCollection);
+        }
     }
 }
