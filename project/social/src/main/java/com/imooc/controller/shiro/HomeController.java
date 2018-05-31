@@ -33,6 +33,9 @@ public class HomeController {
         }
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token=new UsernamePasswordToken(user.getUsername(),user.getPassword());
+        if(request.getParameter("rememberMe")!=null){
+            token.setRememberMe(true);
+        }
         try {
             subject.login(token);
             return "redirect:usersPage";
