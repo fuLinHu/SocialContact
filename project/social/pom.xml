@@ -82,7 +82,7 @@
 
         <!-- Thymeleaf方言支持SpringSecurity 依赖-->
 
-
+        <!-- redis  与 shiro集成-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
@@ -100,7 +100,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!-- 单点登录的集成-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-cas</artifactId>
+            <version>1.2.4</version>
+        </dependency>
 
         <!-- redis session依赖 -->
         <dependency>
