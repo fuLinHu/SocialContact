@@ -86,6 +86,12 @@ public class ShiorConfig {
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的链接
+        /*
+         *  登录成功后要跳转的连接，不设置的时候，会默认跳转到前一步的url
+         *  比如先在浏览器中输入了http://localhost:8080/userlist,但是现在用户却没有登录，于是会跳转到登录页面，等登录认证通过后，
+         *  页面会再次自动跳转到http://localhost:8080/userlist页面而不是登录成功后的index页面
+         *  建议不要设置这个字段
+         */
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
